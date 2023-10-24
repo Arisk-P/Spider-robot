@@ -1,0 +1,640 @@
+#include <ESP32Servo.h>
+#define BLYNK_PRINT Serial
+#define BLYNK_TEMPLATE_ID "TMPL6DLeAahy3"
+#define BLYNK_TEMPLATE_NAME "spider robot"
+#define BLYNK_AUTH_TOKEN "k936WkhlPTbOj_LeXkODmm5iMr348pFs"
+
+
+#include <WiFi.h>
+#include <WiFiClient.h>
+#include <BlynkSimpleEsp32.h>
+
+char ssid[] = "Sinlapachai 2.4G";
+char pass[] = "08182962765";
+//Servo------------------------------------------------
+Servo servo1;
+Servo servo2;
+Servo servo3;
+Servo servo4;
+Servo terser1;
+Servo terser2;
+Servo terser3;
+Servo terser4;
+//Servo Pin---------------------------------------------
+int sep1 = 13;
+int sep2 = 12;
+int sep3 = 14;
+int sep4 = 27;
+int tersep1 = 26;
+int tersep2 = 25;
+int tersep3 = 33;
+int tersep4 = 32;
+//Number------------------------------------------------
+int num = 0;
+//Pose--------------------------------------------------
+int poss1 = 135;
+int poss2 = 45;
+int posts1 = 160;
+int posts2 = 20;
+int poss1_ = 135;
+int poss2_ = 45;
+int posts1_ = 160;
+int posts2_ = 20;
+int poss11 = 135;
+int poss22 = 45;
+int posts11 = 160;
+int posts22 = 20;
+//Radius------------------------------------------------
+int serra = 40;
+int terserra = 30;
+//------------------------------------------------------
+//Delay-------------------------------------------------
+int time1 = 8;
+int time2 = 8;
+//------------------------------------------------------
+void setup()
+{
+    Serial.begin(9600);
+    Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
+  servo1.attach(sep1);
+  servo2.attach(sep2);
+  servo3.attach(sep3);
+  servo4.attach(sep4);
+  terser1.attach(tersep1);
+  terser2.attach(tersep2);
+  terser3.attach(tersep3);
+  terser4.attach(tersep4);
+  //========================================================
+standby();
+  //========================================================
+}
+void standby()
+{
+  servo1.write(poss1);
+  servo2.write(poss2);
+  servo3.write(poss2);
+  servo4.write(poss1);
+  terser1.write(posts1);
+  terser2.write(posts2);
+  terser3.write(posts2);
+  terser4.write(posts1);
+}
+void pack()
+{
+  servo1.write(180);
+  servo2.write(0);
+  servo3.write(0);
+  servo4.write(180);
+  terser1.write(90);
+  terser2.write(90);
+  terser3.write(90);
+  terser4.write(90);
+}
+//========================================================
+void lterser14() //lift terser1and4
+{
+  for (posts1 = 160; posts1 > posts1_ - terserra; posts1 --)
+  {
+    terser1.write(posts1);
+    terser4.write(posts1);
+    delay(time1);
+  }
+}
+//=========================================================
+void mser23() // move servo1and4
+{
+  for (poss2 = 45, poss22 = 45; poss2 > poss2_ - serra && poss22 < poss2_ + serra; poss2 --, poss22++)
+  {
+    servo2.write(poss2);
+    servo3.write(poss22);
+    delay(time1);
+  }
+}
+//==========================================================
+void pterser14() //press terser1and4
+{
+  for (posts1 = posts1_ - terserra; posts1 < 160; posts1 ++)
+  {
+    terser1.write(posts1);
+    terser4.write(posts1);
+    delay(time1);
+  }
+}
+//==========================================================
+void lterser23() //lift terser2and3
+{
+  for (posts2 = 20; posts2 < posts2_ + terserra; posts2 ++)
+  {
+    terser2.write(posts2);
+    terser3.write(posts2);
+    delay(time1);
+  }
+}
+//============================================================
+void bser23() //move servo2and3 back
+{
+  for (poss2 = poss2_ - serra, poss22 = poss2_ + serra; poss2 < 45 && poss22 > 45; poss2 ++, poss22--)
+  {
+    servo2.write(poss2);
+    servo3.write(poss22);
+    delay(time1);
+  }
+}
+//============================================================
+void mser14() //move servo1and4
+{
+  for (poss1 = 135, poss11 = 135; poss1 < poss1_ + serra && poss11 > poss1_ - serra; poss1 ++, poss11--)
+  {
+    servo1.write(poss11);
+    servo4.write(poss1);
+    delay(time1);
+  }
+}
+//============================================================
+void pterser23() //press terser2and3
+{
+  for (posts2 = posts2_ + terserra; posts2 > 20; posts2 --)
+  {
+    terser2.write(posts2);
+    terser3.write(posts2);
+    delay(time1);
+  }
+}
+//=============================================================
+void bser14() //move terser1and4 back
+{
+  for (poss1 = poss1_ + serra, poss11 =  poss1_ - serra; poss1 > 135 && poss11 < 135; poss1 --, poss11++)
+  {
+    servo1.write(poss11);
+    servo4.write(poss1);
+    delay(time1);
+  }
+}
+//=============================================================
+void rser14()
+{
+  for (poss1 = 135; poss1 > poss1_ - serra; poss1 --)
+  {
+    servo1.write(poss1);
+    servo4.write(poss1);
+    delay(time1);
+  }
+}
+//=============================================================
+void rbser14()
+{
+  for (poss1 =  poss1_ - serra; poss1 < 135; poss1 ++)
+  {
+    servo1.write(poss1);
+    servo4.write(poss1);
+    delay(time1);
+  }
+}
+//=============================================================
+void rser23()
+{
+  for (poss2 = 45; poss2 < poss2_ + serra; poss2 ++)
+  {
+    servo2.write(poss2);
+    servo3.write(poss2);
+    delay(time1);
+  }
+}
+//=============================================================
+void rbser23()
+{
+  for (poss2 = poss2_ + serra; poss2 > 45; poss2 --)
+  {
+    servo2.write(poss2);
+    servo3.write(poss2);
+    delay(time1);
+  }
+}
+//==============================================================
+void rser14_2()
+{
+  for (poss1 = 135, poss11 = 135; poss1 < poss1_ + serra && poss11 > poss1_ - serra; poss1 ++, poss11--)
+  {
+    servo1.write(poss1);
+    servo4.write(poss11);
+    delay(time1);
+  }
+}
+//==============================================================
+void rbser14_2()
+{
+  for (poss1 = poss1_ + serra, poss11 = poss1_ - serra; poss1 > 135 && poss11 < 135; poss1 --, poss11 ++)
+  {
+    servo1.write(poss1);
+    servo4.write(poss11);
+    delay(time1);
+  }
+}
+//==============================================================
+void rser23_2()
+{
+  for (poss2 = 45, poss22 = 45; poss2 < poss2_ + serra && poss22 > poss2_ - serra; poss2 ++, poss22 --)
+  {
+    servo2.write(poss2);
+    servo3.write(poss22);
+    delay(time1);
+  }
+}
+//==============================================================
+void rbser23_2()
+{
+  for (poss2 = poss2_ + serra, poss22 = poss2_ - serra; poss2 > 45 && poss22 < 45; poss2 --, poss22 ++)
+  {
+    servo2.write(poss2);
+    servo3.write(poss22);
+    delay(time1);
+  }
+}
+//==============================================================
+void rmser14() //move servo1and4
+{
+  for (poss1 = 135, poss11 = 135; poss1 < poss1_ + serra && poss11 > poss1_ - serra; poss1 ++, poss11--)
+  {
+    servo1.write(poss1);
+    servo4.write(poss11);
+    delay(time1);
+  }
+}
+//==============================================================
+void rmbser14() //move servo1and4
+{
+  for (poss1 =  poss1_ + serra, poss11 = poss1_ - serra; poss1 > 135 && poss11 < 135; poss1 --, poss11++)
+  {
+    servo1.write(poss1);
+    servo4.write(poss11);
+    delay(time1);
+  }
+}
+//==============================================================
+//======================WALK FORWARD============================
+void walkforward()
+{
+  lterser14();
+  mser23();
+  pterser14();
+  lterser23();
+  bser23();
+  mser14();
+  pterser23();
+  lterser14();
+  bser14();
+}
+//======================WALK FORWARD============================
+//==============================================================
+//========================WALK BACK=============================
+void walkback()
+{
+  lterser23();
+  rser14_2();
+  pterser23();
+  lterser14();
+  rbser14_2();
+  rser23_2();
+  pterser14();
+  lterser23();
+  rbser23_2();
+}
+//=======================WALK BACK=============================
+//=============================================================
+//=======================WALK RIGHT============================
+void walkright()
+{
+  lterser14();
+  mser23();
+  pterser14();
+  lterser23();
+  bser23();
+  rmser14();
+  pterser23();
+  lterser14();
+  rmbser14();
+}
+//======================WALK RIGHT=============================
+//=============================================================
+//========================WALK LEFT============================
+void walkleft()
+{
+  lterser23();
+  mser14();
+  pterser23();
+  lterser14();
+  bser14();
+  rser23_2();
+  pterser14();
+  lterser23();
+  rbser23_2();
+}
+//========================WALK LEFT============================
+//=============================================================
+//=======================ROTATE LEFT===========================
+void turnleft()
+{
+  lterser23();
+  rser14();
+  pterser23();
+  lterser14();
+  rbser14();
+  pterser14();
+}
+//=======================ROTATE LEFT===========================
+//=============================================================
+//=======================ROTATE RIGHT==========================
+void turnright()
+{
+  lterser14();
+  rser23();
+  pterser14();
+  lterser23();
+  rbser23();
+  pterser23();
+}
+//=======================ROTATE RIGHT==========================
+//=============================================================
+//===========================JUMP==============================
+void jump()
+{
+  for (posts1 = 160, posts2 = 20; posts1 > posts1_ - terserra && posts2 < posts2_ + terserra; posts1 --, posts2 ++)
+  {
+    terser1.write(posts1);
+    terser2.write(posts2);
+    terser4.write(posts1);
+    terser3.write(posts2);
+    delay(time2);
+  }
+  for (posts1 = posts1_ - terserra, posts2 = posts2_ + terserra; posts1 < 160 && posts2 > 20; posts1 ++, posts2 --)
+  {
+    terser1.write(posts1);
+    terser2.write(posts2);
+    terser4.write(posts1);
+    terser3.write(posts2);
+    delay(time2);
+  }
+}
+//===========================JUMP==============================
+//=============================================================
+//======================SQUAT FORWARD==========================
+void squatforward()
+{
+  for (posts1 = 160, posts2 = 20; posts1 > 90 && posts2 < 90; posts1 --, posts2 ++)
+  {
+    terser1.write(posts1);
+    terser3.write(posts2);
+    delay(time1);
+  }
+  for (poss1 = 135, poss2 = 45; poss1 < 180  && poss2 > 0; poss1 ++, poss2 --)
+  {
+    servo1.write(poss1);
+    servo3.write(poss2);
+    delay(time1);
+  }
+}
+//======================SQUAT FORWARD==========================
+//=============================================================
+//========================SQUAT BACK===========================
+void squatback()
+{
+  for (posts2 = 20, posts1 = 160; posts2 < 90 && posts1 > 90; posts2 ++, posts1 --)
+  {
+    terser2.write(posts2);
+    terser4.write(posts1);
+    delay(time1);
+  }
+  for (poss2 = 45, poss1 = 135; poss2 > 0 && poss1 < 180; poss2 --, poss1 ++)
+  {
+    servo2.write(poss2);
+    servo4.write(poss1);
+    delay(time1);
+  }
+}
+//========================SQUAT BACK===========================
+//=============================================================
+//======================CRAWL FORWARD==========================
+void crawlforward()
+{
+  for (posts2 = 20; posts2 < posts2_ + terserra; posts2 ++)
+  {
+    terser2.write(posts2);
+    delay(time1);
+  }
+  for (poss2 = 45; poss2 < poss2_ + terserra; poss2 ++)
+  {
+    servo2.write(poss2);
+    delay(time1);
+  }
+  for (posts2 = posts2_ + terserra; posts2 > 20; posts2 --)
+  {
+    terser2.write(posts2);
+    delay(time1);
+  }
+  for (poss2 = poss2_ + terserra, posts1 = 160; poss2 > 45 && posts1 > posts1_ - serra; poss2 --, posts1 --)
+  {
+    servo2.write(poss2);
+    terser4.write(posts1);
+    delay(time1);
+  }
+  for (poss1 = 135; poss1 > poss1_ - serra; poss1 --)
+  {
+    servo4.write(poss1);
+    delay(time1);
+  }
+  for (posts1 = posts1_ - serra; posts1 < 160; posts1 ++)
+  {
+    terser4.write(posts1);
+    delay(time1);
+  }
+  for (poss1 = poss1_ - serra, posts2 = 20; poss1 < 135 && posts2 < posts2_ + terserra; poss1 ++,  posts2 ++)
+  {
+    terser2.write(posts2);
+    servo4.write(poss1);
+    delay(time1);
+  }
+}
+//======================CRAWL FORWARD==========================
+//=============================================================
+//=========================Say HI==============================
+void sayhi()
+{
+  for(posts1 = 160; posts1 > posts1_ - terserra; posts1 --)
+  {
+    terser1.write(posts1);
+    delay(time1);
+  }
+  for (poss1 = 135; poss1 < 170; poss1 ++)
+  {
+    servo1.write(poss1);
+    delay(time1);
+  }
+  for(posts1 = posts1_ - terserra; posts1 < 160; posts1 ++)
+  {
+    terser1.write(posts1);
+    delay(time1);
+  }
+  for (posts2 = 20; posts2 < 180; posts2 ++)
+  {
+    terser3.write(posts2);
+    delay(time1);
+  }
+  for (poss2 = 45; poss2 > 0; poss2 --)
+  {
+    servo3.write(poss2);
+    delay(time1);
+  }
+  for (poss2 = 0; poss2 < 90; poss2 ++)
+  {
+    servo3.write(poss2);
+    delay(time1);
+  }
+  for (poss2 = 90; poss2 > 45; poss2 --)
+  {
+    servo3.write(poss2);
+    delay(time1);
+  }
+  delay(500);
+  for (posts2 = 180; posts2 > 20; posts2 --)
+  {
+    terser3.write(posts2);
+    delay(time1);
+  }
+   for(posts1 = 160; posts1 > posts1_ - terserra; posts1 --)
+  {
+    terser1.write(posts1);
+    delay(time1);
+  }
+  for (poss1 = 170; poss1 > 135; poss1 --)
+  {
+    servo1.write(poss1);
+    delay(time1);
+  }
+    for(posts1 = posts1_ - terserra; posts1 < 160; posts1 ++)
+  {
+    terser1.write(posts1);
+    delay(time1);
+  }
+}
+//=========================Say HI==============================
+//=============================================================
+void loop() {
+    Blynk.run();
+    Blynk.syncVirtual(V0);
+    Blynk.syncVirtual(V1);
+    Blynk.syncVirtual(V2);
+    Blynk.syncVirtual(V3);
+    Blynk.syncVirtual(V4);
+    Blynk.syncVirtual(V5);
+    Blynk.syncVirtual(V6);
+    Blynk.syncVirtual(V7);
+    Blynk.syncVirtual(V8);
+    Blynk.syncVirtual(V9);
+}
+//=============================================================
+BLYNK_WRITE(V0)
+{
+  int walk = param.asInt();
+  Serial.println(walk);
+  if (walk == 1)
+  {
+    walkforward();
+  }
+  else
+  {
+    standby();
+  }
+}
+//========================================================
+BLYNK_WRITE(V1)
+{
+  int back = param.asInt();
+  Serial.println(back);
+  if (back == 1)
+  {
+    walkback();
+  }
+  else
+  {
+    standby();
+  }
+}
+//=========================================================
+BLYNK_WRITE(V2)
+{
+  int right = param.asInt();
+  Serial.println(right);
+  if (right == 1)
+  {
+    walkright();
+  }
+  else
+  {
+    standby();
+  }
+}
+//==========================================================
+BLYNK_WRITE(V3)
+{
+  int left = param.asInt();
+  Serial.println(left);
+  if (left == 1)
+  {
+    walkleft();
+  }
+  else
+  {
+    standby(); 
+  }
+}
+//==========================================================
+BLYNK_WRITE(V4)
+{
+  int rotate_right = param.asInt();
+  Serial.println(rotate_right);
+  if (rotate_right == 1)
+  {
+    turnright();
+  }
+}
+//==========================================================
+BLYNK_WRITE(V5)
+{
+  int rotate_left = param.asInt();
+  Serial.println(rotate_left);
+  if (rotate_left == 1)
+  {
+    turnleft();
+  }
+}
+//==========================================================
+BLYNK_WRITE(V6)
+{
+  int reset = param.asInt();
+  Serial.println(reset);
+  if (reset == 1)
+  {
+    standby();
+  }
+}
+//==========================================================
+BLYNK_WRITE(V7)
+{
+  int packing = param.asInt();
+  Serial.println(packing);
+  if (packing == 1)
+  {
+    pack();
+  }
+}
+//==========================================================
+BLYNK_WRITE(V8)
+{
+ int say_hi = param.asInt();
+ Serial.println(say_hi);
+ if (say_hi == 1)
+ {
+  sayhi();
+ }
+}
+//==========================================================
